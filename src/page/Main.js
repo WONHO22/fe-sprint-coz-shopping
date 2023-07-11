@@ -283,7 +283,7 @@ const Main = ({
                     });
                     setProductData(newData);
                   }}
-                  fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
+                  fill={isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
                 />
                 <img src={item.image_url} alt={item.title} />
                 <div>사진설명</div>
