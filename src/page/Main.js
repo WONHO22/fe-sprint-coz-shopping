@@ -31,7 +31,15 @@ const ItemWrapper = styled.div`
     width: 100%;
 
     .itemContainer {
-      justify-content: center;
+      // product bookmark
+      > svg {
+        display: relative;
+        transform: translate(330px, 275px);
+        width: 35px;
+        height: 35px;
+        color: white;
+        cursor: pointer;
+      }
 
       > img {
         width: 385px;
@@ -43,6 +51,7 @@ const ItemWrapper = styled.div`
         display: flex;
         flex-direction: row;
         justify-content: space-between;
+
         > .subDescription {
           margin-right: 65px;
           text-align: right;
@@ -117,6 +126,8 @@ const Main = () => {
   const [showModal, setShowModal] = useState(false);
   // 클릭한 이미지의 상태 저장
   const [selectedImage, setSelectedImage] = useState(null);
+  // 북마크 클릭시 상태를 저장
+  const [isBookmarked, setIsBookmarked] = useState(false);
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
@@ -150,9 +161,17 @@ const Main = () => {
                 key={idx}
                 onClick={() => clickModal(item)}
               >
+                <FaStar
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsBookmarked(!isBookmarked);
+                  }}
+                  fill={isBookmarked ? "#FFD361" : "white"}
+                />
                 <img src={item.image_url} alt={item.title} />
                 <div className="description">
-                  <div>{item.title}</div>{" "}
+                  <div>{item.title}</div>
+
                   <div className="subDescription">
                     {item.discountPercentage !== null ? (
                       <div>{`${item.discountPercentage}%`}</div>
@@ -185,7 +204,13 @@ const Main = () => {
               />
               <div className="bookmarkStar">
                 {/* 북마크 */}
-                <FaStar />
+                <FaStar
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    setIsBookmarked(!isBookmarked);
+                  }}
+                  fill={isBookmarked ? "#FFD361" : "white"}
+                />
                 <div>{selectedImage.title}</div>
               </div>
             </div>
