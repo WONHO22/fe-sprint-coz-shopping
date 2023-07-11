@@ -31,6 +31,8 @@ const ItemWrapper = styled.div`
     width: 100%;
 
     .itemContainer {
+      margin-top: -40px;
+
       // product bookmark
       > svg {
         display: relative;
@@ -222,10 +224,21 @@ const Main = () => {
                 <FaStar
                   onClick={(event) => {
                     event.stopPropagation();
+                    const newData = productData.map((data) => {
+                      if (data.id === selectedImage.id) {
+                        return {
+                          ...data,
+                          isBookmarked: !isBookmarked, // 모달창에서 업데이트하는 항목의 북마크 상태만 업데이트
+                        };
+                      }
+                      return data;
+                    });
+                    setProductData(newData);
                     setIsBookmarked(!isBookmarked);
                   }}
                   fill={isBookmarked ? "#FFD361" : "white"}
                 />
+                {/* 해당 상품 항목의 북마크 상태에 따라 색상 설정 */}
                 <div>{selectedImage.title}</div>
               </div>
             </div>
@@ -236,6 +249,22 @@ const Main = () => {
           <div>
             {productData.map((item, idx) => (
               <div className="itemContainer" key={idx}>
+                <FaStar
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    const newData = productData.map((data) => {
+                      if (data.id === item.id) {
+                        return {
+                          ...data,
+                          isBookmarked: !data.isBookmarked, // 해당 상품 항목만 업데이트
+                        };
+                      }
+                      return data;
+                    });
+                    setProductData(newData);
+                  }}
+                  fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
+                />
                 <img src={item.image_url} alt={item.title} />
                 <div>사진설명</div>
               </div>
