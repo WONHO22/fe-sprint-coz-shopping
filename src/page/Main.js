@@ -121,15 +121,20 @@ const ProductModal = styled.div`
   }
 `;
 
-const Main = () => {
+const Main = ({
+  productData,
+  setProductData,
+  isBookmarked,
+  setIsBookmarked,
+}) => {
   // product 사진을 받아오는 상태
-  const [productData, setProductData] = useState([]);
+  // const [productData, setProductData] = useState([]); // app.js로 상태끌어올리기
   // 모달창 구현을 위한 상태
   const [showModal, setShowModal] = useState(false);
   // 클릭한 이미지의 상태 저장
   const [selectedImage, setSelectedImage] = useState(null);
   // 북마크 클릭시 상태를 저장
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  // const [isBookmarked, setIsBookmarked] = useState(false); // app.js로 상태끌어올리기
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
@@ -138,23 +143,23 @@ const Main = () => {
     setSelectedImage(item);
   };
 
-  // product 사진을 받아오는 api, axios 사용 / 비동기처리x
-  useEffect(() => {
-    axios
-      .get("http://cozshopping.codestates-seb.link/api/v1/products", {
-        params: { count: 4 },
-      })
-      .then((response) => {
-        const data = response.data.map((item) => ({
-          ...item,
-          isBookmarked: false, // 북마크 상태 정보를 추가로 저장
-        }));
-        setProductData(data);
-      })
-      .catch((error) => {
-        console.error("Error", error);
-      });
-  }, []);
+  // product 사진을 받아오는 api, axios 사용 / 비동기처리x  => 상태끌어올리기 app.js로
+  // useEffect(() => {
+  //   axios
+  //     .get("http://cozshopping.codestates-seb.link/api/v1/products", {
+  //       params: { count: 4 },
+  //     })
+  //     .then((response) => {
+  //       const data = response.data.map((item) => ({
+  //         ...item,
+  //         isBookmarked: false, // 북마크 상태 정보를 추가로 저장
+  //       }));
+  //       setProductData(data);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error", error);
+  //     });
+  // }, []);
 
   return (
     <>
@@ -209,7 +214,22 @@ const Main = () => {
         </ItemWrapper>
         {/* 모달창 랜더링 부분 */}
         {showModal && (
-          <ProductModal onClick={() => setShowModal(false)}>
+          <ProductModal
+            isBookmarked={selectedImage.isBookmarked}
+            setIsBookmarked={(value) => {
+              const newData = productData.map((data) => {
+                if (data.id === selectedImage.id) {
+                  return {
+                    ...data,
+                    isBookmarked: value,
+                  };
+                }
+                return data;
+              });
+              setProductData(newData);
+            }}
+            onClick={() => setShowModal(false)}
+          >
             <div>
               <div className="closeButton">
                 <IoClose />
@@ -228,13 +248,13 @@ const Main = () => {
                       if (data.id === selectedImage.id) {
                         return {
                           ...data,
-                          isBookmarked: !isBookmarked, // 모달창에서 업데이트하는 항목의 북마크 상태만 업데이트
+                          isBookmarked: !selectedImage.isBookmarked,
                         };
                       }
                       return data;
                     });
                     setProductData(newData);
-                    setIsBookmarked(!isBookmarked);
+                    setIsBookmarked(!selectedImage.isBookmarked);
                   }}
                   fill={isBookmarked ? "#FFD361" : "white"}
                 />
@@ -256,7 +276,7 @@ const Main = () => {
                       if (data.id === item.id) {
                         return {
                           ...data,
-                          isBookmarked: !data.isBookmarked, // 해당 상품 항목만 업데이트
+                          isBookmarked: !isBookmarked, // 해당 상품 항목만 업데이트
                         };
                       }
                       return data;
