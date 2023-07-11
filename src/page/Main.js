@@ -17,7 +17,7 @@ const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 
   .title {
     font-size: 2rem;
@@ -29,13 +29,22 @@ const ItemWrapper = styled.div`
     width: 100%;
 
     .itemContainer {
-      justify-self: center;
+      justify-content: center;
 
       > img {
         width: 385px;
         height: 280px;
         border-radius: 15px;
-        margin: 10px 65px 10px 0px;
+        margin: 10px 65px 0px 0px;
+      }
+      > .description {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        > .subDescription {
+          margin-right: 65px;
+          text-align: right;
+        }
       }
     }
   }
@@ -67,7 +76,22 @@ const Main = () => {
             {productData.map((item, idx) => (
               <div className="itemContainer" key={idx}>
                 <img src={item.image_url} alt={item.title} />
-                <div>사진설명</div>
+                <div className="description">
+                  <div>{item.title}</div>{" "}
+                  <div className="subDescription">
+                    {item.discountPercentage !== null ? (
+                      <div>{`${item.discountPercentage}%`}</div>
+                    ) : item.follower ? (
+                      <div>
+                        관심 고객수 <br />
+                        {Number(item.follower).toLocaleString()}명
+                      </div>
+                    ) : null}
+                    {item.price !== null ? (
+                      <div>{`${Number(item.price).toLocaleString()}원`}</div>
+                    ) : null}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
