@@ -142,7 +142,13 @@ const Main = () => {
       .get("http://cozshopping.codestates-seb.link/api/v1/products", {
         params: { count: 4 },
       })
-      .then((response) => setProductData(response.data))
+      .then((response) => {
+        const data = response.data.map((item) => ({
+          ...item,
+          isBookmarked: false, // 북마크 상태 정보를 추가로 저장
+        }));
+        setProductData(data);
+      })
       .catch((error) => {
         console.error("Error", error);
       });
@@ -164,9 +170,18 @@ const Main = () => {
                 <FaStar
                   onClick={(event) => {
                     event.stopPropagation();
-                    setIsBookmarked(!isBookmarked);
+                    const newData = productData.map((data) => {
+                      if (data.id === item.id) {
+                        return {
+                          ...data,
+                          isBookmarked: !data.isBookmarked, // 해당 상품 항목만 업데이트
+                        };
+                      }
+                      return data;
+                    });
+                    setProductData(newData);
                   }}
-                  fill={isBookmarked ? "#FFD361" : "white"}
+                  fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
                 />
                 <img src={item.image_url} alt={item.title} />
                 <div className="description">
