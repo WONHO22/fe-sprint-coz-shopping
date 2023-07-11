@@ -3,6 +3,8 @@ import styled from "styled-components";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
 import axios from "axios";
+import { AiFillStar, IoClose } from "react-icons/io5";
+import { FaStar } from "react-icons/fa";
 
 const Container = styled.div`
   display: flex;
@@ -50,9 +52,78 @@ const ItemWrapper = styled.div`
   }
 `;
 
+const ProductModal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 999;
+
+  > div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    > .closeButton {
+      > svg {
+        position: absolute;
+        top: 15px;
+        right: 0;
+        width: 70px;
+        height: 45px;
+        color: white;
+        cursor: pointer;
+      }
+    }
+
+    > .bookmarkStar {
+      > svg {
+        position: absolute;
+        bottom: 30px;
+        left: 20px;
+        width: 35px;
+        height: 35px;
+        color: white;
+        cursor: pointer;
+      }
+      > div {
+        position: absolute;
+        bottom: 30px;
+        left: 65px;
+        width: 400px;
+        height: 35px;
+        color: white;
+        cursor: pointer;
+        font-size: 1.6rem;
+      }
+    }
+
+    > img {
+      width: 1100px;
+      height: 680px;
+
+      border-radius: 15px;
+    }
+  }
+`;
+
 const Main = () => {
   // product 사진을 받아오는 상태
   const [productData, setProductData] = useState([]);
+  // 모달창 구현을 위한 상태
+  const [showModal, setShowModal] = useState(false);
+  // 클릭한 이미지의 상태 저장
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  // product 클릭시 실행되는 핸들러 함수
+  // 클릭한 이미지의 데이터를 selectedImage에 저장
+  const clickModal = (item) => {
+    setShowModal(!showModal);
+    setSelectedImage(item);
+  };
 
   // product 사진을 받아오는 api, axios 사용 / 비동기처리x
   useEffect(() => {
@@ -74,7 +145,11 @@ const Main = () => {
           <div className="title">상품 리스트</div>
           <div>
             {productData.map((item, idx) => (
-              <div className="itemContainer" key={idx}>
+              <div
+                className="itemContainer"
+                key={idx}
+                onClick={() => clickModal(item)}
+              >
                 <img src={item.image_url} alt={item.title} />
                 <div className="description">
                   <div>{item.title}</div>{" "}
@@ -96,7 +171,26 @@ const Main = () => {
             ))}
           </div>
         </ItemWrapper>
-
+        {/* 모달창 랜더링 부분 */}
+        {showModal && (
+          <ProductModal onClick={() => setShowModal(false)}>
+            <div>
+              <div className="closeButton">
+                <IoClose />
+              </div>
+              <img
+                src={selectedImage.image_url}
+                alt={selectedImage.title}
+                onClick={(event) => event.stopPropagation()}
+              />
+              <div className="bookmarkStar">
+                {/* 북마크 */}
+                <FaStar />
+                <div>{selectedImage.title}</div>
+              </div>
+            </div>
+          </ProductModal>
+        )}
         <ItemWrapper>
           <div className="title">북마크 리스트</div>
           <div>
