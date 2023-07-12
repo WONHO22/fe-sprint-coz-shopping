@@ -135,54 +135,40 @@ const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
         fill={item.isBookmarked ? "#FFD361" : "white"} // isBookmarked 여부에 따라 별 색상 변경
       />
       <img src={item.image_url} alt={item.title} />
-      {/* 상품 type 별 설명 분기... 리팩토링이 필요할듯 */}
-      {item.type === "Product" ? (
-        <div className="descriptionContainer">
-          <div className="subDescriptionContainer">
-            <div className="descriptionItem">{item.title}</div>
-            <div className="descriptionItem"></div>
+      <div className="descriptionContainer">
+        <div className="subDescriptionContainer">
+          <div className="descriptionItem">
+            {item.type === "Product"
+              ? item.title
+              : item.type === "Category"
+              ? `# ${item.title}`
+              : item.type === "Exhibition"
+              ? item.title
+              : item.type === "Brand"
+              ? item.brand_name
+              : ""}
           </div>
-          <div className="subDescriptionContainer2">
-            <div className="descriptionItem">{`${Number(
-              item.price
-            ).toLocaleString()}원`}</div>
-            <div className="descriptionItem">{`${item.discountPercentage}%`}</div>
-          </div>
-        </div>
-      ) : item.type === "Category" ? (
-        <div className="descriptionContainer">
-          <div className="subDescriptionContainer">
-            <div className="descriptionItem"># {item.title}</div>
-            <div className="descriptionItem"></div>
-          </div>
-          <div className="subDescriptionContainer2">
-            <div className="descriptionItem"></div>
-            <div className="descriptionItem"></div>
+          <div className="descriptionItem">
+            {item.type === "Exhibition" ? item.sub_title : ""}
           </div>
         </div>
-      ) : item.type === "Exhibition" ? (
-        <div className="descriptionContainer">
-          <div className="subDescriptionContainer">
-            <div className="descriptionItem">{item.title}</div>
-            <div className="descriptionItem">{item.sub_title}</div>
+        <div className="subDescriptionContainer2">
+          <div className="descriptionItem">
+            {item.type === "Product"
+              ? `${Number(item.price).toLocaleString()}원`
+              : item.type === "Brand"
+              ? "관심고객수"
+              : ""}
           </div>
-          <div className="subDescriptionContainer2">
-            <div className="descriptionItem"></div>
-            <div className="descriptionItem"></div>
-          </div>
-        </div>
-      ) : item.type === "Brand" ? (
-        <div className="descriptionContainer">
-          <div className="subDescriptionContainer">
-            <div className="descriptionItem">{item.brand_name}</div>
-            <div className="descriptionItem"></div>
-          </div>
-          <div className="subDescriptionContainer2">
-            <div className="descriptionItem">관심고객수</div>
-            <div className="descriptionItem">{item.follower}</div>
+          <div className="descriptionItem">
+            {item.type === "Product"
+              ? `${item.discountPercentage}%`
+              : item.type === "Brand"
+              ? item.follower
+              : ""}
           </div>
         </div>
-      ) : null}
+      </div>
     </div>
   );
 };
