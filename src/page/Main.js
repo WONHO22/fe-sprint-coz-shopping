@@ -120,6 +120,41 @@ const ProductModal = styled.div`
   }
 `;
 
+// 이미지를 보여주는 컴포넌트 생성
+// item은 클릭은 그 상품자체의 정보를 담고있음
+// onClick은 showModal과 selectedImage 의 상태를 바꾸어주는 clickModal 핸들러 함수를 전달받음
+// handleBookmarkClick는 현재 클릭한 사진의 bookmark 이미지 클릭시 isBookmarked의 값을 바꿔주는 핸들러함수
+const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
+  return (
+    <div className="itemContainer" onClick={onClick}>
+      <FaStar
+        onClick={(event) => {
+          event.stopPropagation(); // .itemContainer의 onClick 핸들러함수의 이벤트 캡쳐링을 방지하고자 썻으나, 없어도 정상작동(리팩토링 전에는 필요했음)
+          handleBookmarkClick(item);
+        }}
+        fill={item.isBookmarked ? "#FFD361" : "white"} // isBookmarked 여부에 따라 별 색상 변경
+      />
+      <img src={item.image_url} alt={item.title} />
+      <div className="description">
+        <div>{item.title}</div>
+        <div className="subDescription">
+          {item.discountPercentage !== null ? (
+            <div>{`${item.discountPercentage}%`}</div>
+          ) : item.follower ? (
+            <div>
+              관심 고객수 <br />
+              {Number(item.follower).toLocaleString()}명
+            </div>
+          ) : null}
+          {item.price !== null ? (
+            <div>{`${Number(item.price).toLocaleString()}원`}</div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Main = ({
   productData,
   setProductData,
@@ -160,6 +195,20 @@ const Main = ({
   //     });
   // }, []);
 
+  // 현재 클릭한 사진의 bookmark 이미지 클릭시 isBookmarked의 값을 바꿔주는 핸들러함수
+  const handleBookmarkClick = (item) => {
+    const newData = productData.map((data) => {
+      if (data.id === item.id) {
+        return {
+          ...data,
+          isBookmarked: !data.isBookmarked, // 해당 상품 항목의 isBookmarked값 업데이트
+        };
+      }
+      return data;
+    });
+    setProductData(newData); // 북마크 여부를 isBookmarked에 불린값으로 ProductData에 저장해둠 (isBookmarked 기본값 false)
+  };
+
   return (
     <>
       <Header />
@@ -168,47 +217,12 @@ const Main = ({
           <div className="title">상품 리스트</div>
           <div>
             {productData.map((item, idx) => (
-              <div
-                className="itemContainer"
+              <ProductItem
                 key={idx}
+                item={item}
                 onClick={() => clickModal(item)}
-              >
-                <FaStar
-                  onClick={(event) => {
-                    // // 이벤트 캡처링 방지, onClick={() => clickModal(item)} 실행이 될경우 원치않은 결과 초래 (모달 내부에서 bookmark 작동안함)
-                    event.stopPropagation();
-                    const newData = productData.map((data) => {
-                      if (data.id === item.id) {
-                        return {
-                          ...data,
-                          isBookmarked: !data.isBookmarked, // 해당 상품 항목만 업데이트
-                        };
-                      }
-                      return data;
-                    });
-                    setProductData(newData); // 북마크 여부를 isBookmarked에 불린값으로 ProductData에 저장해둠 (isBookmarked 기본값 false)
-                  }}
-                  fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
-                />
-                <img src={item.image_url} alt={item.title} />
-                <div className="description">
-                  <div>{item.title}</div>
-
-                  <div className="subDescription">
-                    {item.discountPercentage !== null ? (
-                      <div>{`${item.discountPercentage}%`}</div>
-                    ) : item.follower ? (
-                      <div>
-                        관심 고객수 <br />
-                        {Number(item.follower).toLocaleString()}명
-                      </div>
-                    ) : null}
-                    {item.price !== null ? (
-                      <div>{`${Number(item.price).toLocaleString()}원`}</div>
-                    ) : null}
-                  </div>
-                </div>
-              </div>
+                handleBookmarkClick={handleBookmarkClick}
+              />
             ))}
           </div>
         </ItemWrapper>
@@ -226,7 +240,7 @@ const Main = ({
                 onClick={(event) => event.stopPropagation()}
               />
               <div className="bookmarkStar">
-                {/* 모달창 내부 북마크 */}
+                {/* 모달창 내부 북마크 이미지 */}
                 <FaStar
                   onClick={(event) => {
                     // 이벤트 캡처링으로 모달창 내부에서 클릭시 onClick={() => setShowModal(false)} 실행 방지
@@ -259,56 +273,19 @@ const Main = ({
           </ProductModal>
         )}
 
-        {/* 위의 상품리스트와 중복코드가 많아 추후 리팩토링예정 */}
-        {/* 위의 상품리스트와 중복코드가 많아 추후 리팩토링예정 */}
-        {/* 위의 상품리스트와 중복코드가 많아 추후 리팩토링예정 */}
+        {/*북마스 리스트 랜더링구간 */}
         <ItemWrapper>
           <div className="title">북마크 리스트</div>
           <div>
             {productData
-              .filter((item) => item.isBookmarked) //isBookmarked가 true인것만 랜더링, 추후 여러개일때 랜덤으로 받아올건지 slice(0,4)할건지 고민
+              .filter((item) => item.isBookmarked)
               .map((item, idx) => (
-                <div
-                  className="itemContainer"
+                <ProductItem
                   key={idx}
+                  item={item}
                   onClick={() => clickModal(item)}
-                >
-                  <FaStar
-                    onClick={(event) => {
-                      // // 이벤트 캡처링 방지, onClick={() => clickModal(item)} 실행이 될경우 원치않은 결과 초래 (모달 내부에서 bookmark 작동안함)
-                      event.stopPropagation();
-                      const newData = productData.map((data) => {
-                        if (data.id === item.id) {
-                          return {
-                            ...data,
-                            isBookmarked: !data.isBookmarked, // 해당 상품 항목만 업데이트
-                          };
-                        }
-                        return data;
-                      });
-                      setProductData(newData); // 북마크 여부를 isBookmarked에 불린값으로 ProductData에 저장해둠 (isBookmarked 기본값 false)
-                    }}
-                    fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
-                  />
-                  <img src={item.image_url} alt={item.title} />
-                  <div className="description">
-                    <div>{item.title}</div>
-
-                    <div className="subDescription">
-                      {item.discountPercentage !== null ? (
-                        <div>{`${item.discountPercentage}%`}</div>
-                      ) : item.follower ? (
-                        <div>
-                          관심 고객수 <br />
-                          {Number(item.follower).toLocaleString()}명
-                        </div>
-                      ) : null}
-                      {item.price !== null ? (
-                        <div>{`${Number(item.price).toLocaleString()}원`}</div>
-                      ) : null}
-                    </div>
-                  </div>
-                </div>
+                  handleBookmarkClick={handleBookmarkClick}
+                />
               ))}
           </div>
         </ItemWrapper>
