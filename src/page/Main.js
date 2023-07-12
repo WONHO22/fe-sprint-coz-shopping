@@ -48,12 +48,12 @@ const ItemWrapper = styled.div`
         border-radius: 15px;
         margin: 10px 65px 0px 0px;
       }
-      > .description {
+      > .descriptionContainer {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
 
-        > .subDescription {
+        > .subDescriptionContainer2 {
           margin-right: 65px;
           text-align: right;
         }
@@ -135,22 +135,54 @@ const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
         fill={item.isBookmarked ? "#FFD361" : "white"} // isBookmarked 여부에 따라 별 색상 변경
       />
       <img src={item.image_url} alt={item.title} />
-      <div className="description">
-        <div>{item.title}</div>
-        <div className="subDescription">
-          {item.discountPercentage !== null ? (
-            <div>{`${item.discountPercentage}%`}</div>
-          ) : item.follower ? (
-            <div>
-              관심 고객수 <br />
-              {Number(item.follower).toLocaleString()}명
-            </div>
-          ) : null}
-          {item.price !== null ? (
-            <div>{`${Number(item.price).toLocaleString()}원`}</div>
-          ) : null}
+      {/* 상품 type 별 설명 분기... 리팩토링이 필요할듯 */}
+      {item.type === "Product" ? (
+        <div className="descriptionContainer">
+          <div className="subDescriptionContainer">
+            <div className="descriptionItem">{item.title}</div>
+            <div className="descriptionItem"></div>
+          </div>
+          <div className="subDescriptionContainer2">
+            <div className="descriptionItem">{`${Number(
+              item.price
+            ).toLocaleString()}원`}</div>
+            <div className="descriptionItem">{`${item.discountPercentage}%`}</div>
+          </div>
         </div>
-      </div>
+      ) : item.type === "Category" ? (
+        <div className="descriptionContainer">
+          <div className="subDescriptionContainer">
+            <div className="descriptionItem"># {item.title}</div>
+            <div className="descriptionItem"></div>
+          </div>
+          <div className="subDescriptionContainer2">
+            <div className="descriptionItem"></div>
+            <div className="descriptionItem"></div>
+          </div>
+        </div>
+      ) : item.type === "Exhibition" ? (
+        <div className="descriptionContainer">
+          <div className="subDescriptionContainer">
+            <div className="descriptionItem">{item.title}</div>
+            <div className="descriptionItem">{item.sub_title}</div>
+          </div>
+          <div className="subDescriptionContainer2">
+            <div className="descriptionItem"></div>
+            <div className="descriptionItem"></div>
+          </div>
+        </div>
+      ) : item.type === "Brand" ? (
+        <div className="descriptionContainer">
+          <div className="subDescriptionContainer">
+            <div className="descriptionItem">{item.brand_name}</div>
+            <div className="descriptionItem"></div>
+          </div>
+          <div className="subDescriptionContainer2">
+            <div className="descriptionItem">관심고객수</div>
+            <div className="descriptionItem">{item.follower}</div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };
