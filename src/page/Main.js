@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../component/Header";
 import Footer from "../component/Footer";
-import axios from "axios";
-import { AiFillStar, IoClose } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 
 const Container = styled.div`
@@ -176,6 +175,7 @@ const Main = ({
               >
                 <FaStar
                   onClick={(event) => {
+                    // // 이벤트 캡처링 방지, onClick={() => clickModal(item)} 실행이 될경우 원치않은 결과 초래 (모달 내부에서 bookmark 작동안함)
                     event.stopPropagation();
                     const newData = productData.map((data) => {
                       if (data.id === item.id) {
@@ -186,7 +186,7 @@ const Main = ({
                       }
                       return data;
                     });
-                    setProductData(newData);
+                    setProductData(newData); // 북마크 여부를 isBookmarked에 불린값으로 ProductData에 저장해둠 (isBookmarked 기본값 false)
                   }}
                   fill={item.isBookmarked ? "#FFD361" : "white"} // 해당 상품 항목의 북마크 상태에 따라 색상 설정
                 />
@@ -212,24 +212,10 @@ const Main = ({
             ))}
           </div>
         </ItemWrapper>
+
         {/* 모달창 랜더링 부분 */}
-        {showModal && (
-          <ProductModal
-            isBookmarked={selectedImage.isBookmarked}
-            setIsBookmarked={(value) => {
-              const newData = productData.map((data) => {
-                if (data.id === selectedImage.id) {
-                  return {
-                    ...data,
-                    isBookmarked: value,
-                  };
-                }
-                return data;
-              });
-              setProductData(newData);
-            }}
-            onClick={() => setShowModal(false)}
-          >
+        {showModal && ( // 상품 이미지 클릭시 핸들러함수 clickModal 가 실행되어 showModal의 값이 바뀜 + 클릭한 사진이 SelectedImage 상태에 저장됨
+          <ProductModal onClick={() => setShowModal(false)}>
             <div>
               <div className="closeButton">
                 <IoClose />
@@ -240,11 +226,15 @@ const Main = ({
                 onClick={(event) => event.stopPropagation()}
               />
               <div className="bookmarkStar">
-                {/* 북마크 */}
+                {/* 모달창 내부 북마크 */}
                 <FaStar
                   onClick={(event) => {
+                    // 이벤트 캡처링으로 모달창 내부에서 클릭시 onClick={() => setShowModal(false)} 실행 방지
                     event.stopPropagation();
                     const newData = productData.map((data) => {
+                      // 모달창 내부 북마크 클릭시 => 클릭된 사진이 메인창에서 내가 클릭한 사진인지 확인
+                      // => 맞다면 isBookmarked 값을 바꾸어 줌(색상 및 isBookmarked값 변경)
+                      // => 변경된 isBookmarked 값을 productData에 업데이트
                       if (data.id === selectedImage.id) {
                         return {
                           ...data,
@@ -254,9 +244,13 @@ const Main = ({
                       return data;
                     });
                     setProductData(newData);
-                    setIsBookmarked(!selectedImage.isBookmarked);
+                    // 모달창 내부 북마크 클릭시 현재 클릭된 사진(selectedImage)의 isBookmarked값을 변경시켜줘야하기 때문에 추가한 로직
+                    setSelectedImage((prevImage) => ({
+                      ...prevImage,
+                      isBookmarked: !prevImage.isBookmarked,
+                    }));
                   }}
-                  fill={isBookmarked ? "#FFD361" : "white"}
+                  fill={selectedImage.isBookmarked ? "#FFD361" : "white"}
                 />
                 {/* 해당 상품 항목의 북마크 상태에 따라 색상 설정 */}
                 <div>{selectedImage.title}</div>
