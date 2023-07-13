@@ -100,7 +100,7 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 초기 랜더링될 이미지의 수를 8로 설정
   const [renderedItems, setRenderedItems] = useState(12);
   // 상품 필터링을 해주기 위한 상태
-  const [selectedFilter, setSelectedFilter] = useState("전체");
+  const [selectedFilter, setSelectedFilter] = useState("");
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
