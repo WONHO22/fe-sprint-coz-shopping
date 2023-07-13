@@ -17,7 +17,7 @@ const FilteringSection = styled.section`
     flex-direction: row;
     justify-content: center;
     > div {
-      margin: 0px 35px;
+      margin: 0px 30px;
       // 필터링 섹션 안에 사진
       > img {
         width: 105px;
@@ -37,14 +37,24 @@ const ProductContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
-  width: 100%;
+  justify-content: space-around;
+  width: 97%;
   margin: 40px 10px 10px 10px;
   > .itemContainer {
     // 상품리스트 사진
     > img {
-      width: 385px;
-      height: 280px;
+      width: 410px;
+      height: 300px;
+      border-radius: 15px;
+    }
+
+    > svg {
+      display: relative;
+      transform: translate(400px, -10px);
+      width: 35px;
+      height: 35px;
+      color: white;
+      cursor: pointer;
     }
   }
 `;
@@ -62,6 +72,8 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   const [showModal, setShowModal] = useState(false);
   // 클릭한 이미지의 상태 저장
   const [selectedImage, setSelectedImage] = useState(null);
+  // 초기 랜더링될 이미지의 수를 8로 설정
+  const [renderedItems, setRenderedItems] = useState(8);
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
@@ -84,6 +96,29 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
     setProductData(newData); // 북마크 여부를 isBookmarked에 불린값으로 ProductData에 저장해둠 (isBookmarked 기본값 false)
   };
 
+  useEffect(() => {
+    // 스크롤 이벤트에 handleScroll핸들러 함수 등록
+    window.addEventListener("scroll", handleScroll);
+    // 메모리 누수 방지를 위해 언마운트시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  // 스크롤 이벤트에 등록할 핸들러 함수
+  const handleScroll = () => {
+    // 사용자가 bottom까지 스크롤했는이 여부를 판단
+    // 뷰포트의 보이는 높이(window.innerHeight)와 문서의 수직 스크롤 위치(window.scrollY)의 합이 문서의 전체 높이(document)보다 크거나 같은지 확인
+    const isBottom =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight;
+
+    if (isBottom) {
+      // bottom까지 스크롤 한 경우 초기값(이전값) + 8을 해준값으로 renderedItems상태 변경
+      // slice 메서드를 통해 +8씩 늘려줄거임
+      setRenderedItems((prevCount) => prevCount + 8);
+    }
+  };
+
   return (
     <>
       <Header />
@@ -99,8 +134,9 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
         </div>
       </FilteringSection>
 
+      {/*상품리스트 랜더링 부분 */}
       <ProductContainer>
-        {productData.map((item, idx) => (
+        {productData.slice(0, renderedItems).map((item, idx) => (
           <ProductItem
             key={idx}
             item={item}
