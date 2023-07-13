@@ -6,6 +6,22 @@ import ProductListPage from "./page/ProductListPage";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styled from "styled-components";
+
+const CustomToastContainer = styled(ToastContainer)`
+  .Toastify__toast-container {
+  }
+  .Toastify__toast {
+    border-radius: 15px;
+    padding: 10px;
+    font-size: 1.2rem;
+    width: 390px;
+    right: 100px;
+    > button {
+      align-self: center;
+    }
+  }
+`;
 
 function App() {
   const [productData, setProductData] = useState([]);
@@ -65,7 +81,7 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
-      <ToastContainer position="bottom-center" autoClose={3000} />
+      <CustomToastContainer position="bottom-right" autoClose={3000} />
     </>
   );
 }
