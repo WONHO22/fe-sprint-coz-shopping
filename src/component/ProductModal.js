@@ -66,6 +66,7 @@ const ProductModal = ({
   setShowModal,
   selectedImage,
   handleBookmarkClick,
+  setSelectedImage,
 }) => {
   /*props로 받은 shoModal false일때는 랜더링X */
   if (!showModal) {
@@ -99,6 +100,11 @@ const ProductModal = ({
             onClick={(event) => {
               event.stopPropagation();
               toggleBookmark();
+              /* 모달창 내부에서 북마크 이미지 클릭시 내부/외부 isbookmarked 상태가 반영되게하는 코드 */
+              setSelectedImage((prevImage) => ({
+                ...prevImage,
+                isBookmarked: !prevImage.isBookmarked,
+              }));
             }}
             fill={selectedImage.isBookmarked ? "#FFD361" : "white"}
           />

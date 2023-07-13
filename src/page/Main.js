@@ -111,6 +111,7 @@ const Main = ({
                 item={item}
                 onClick={() => clickModal(item)}
                 handleBookmarkClick={handleBookmarkClick}
+                setSelectedImage={setSelectedImage}
               />
             ))}
           </div>
@@ -122,6 +123,7 @@ const Main = ({
           setShowModal={setShowModal}
           selectedImage={selectedImage}
           handleBookmarkClick={handleBookmarkClick}
+          setSelectedImage={setSelectedImage}
         />
 
         {/*북마크 리스트 랜더링구간 */}
@@ -136,6 +138,7 @@ const Main = ({
                   item={item}
                   onClick={() => clickModal(item)}
                   handleBookmarkClick={handleBookmarkClick}
+                  setSelectedImage={setSelectedImage}
                 />
               ))}
           </div>

@@ -36,11 +36,15 @@ const FilteringSection = styled.section`
 const ProductContainer = styled.div`
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin: 40px 10px 10px 10px;
   > .itemContainer {
     // 상품리스트 사진
     > img {
-      width: 300px;
-      height: 300px;
+      width: 385px;
+      height: 280px;
     }
   }
 `;
@@ -59,11 +63,14 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 클릭한 이미지의 상태 저장
   const [selectedImage, setSelectedImage] = useState(null);
 
+  // product 클릭시 실행되는 핸들러 함수
+  // 클릭한 이미지의 데이터를 selectedImage에 저장
   const clickModal = (item) => {
     setShowModal(!showModal);
     setSelectedImage(item);
   };
 
+  // 현재 클릭한 사진의 bookmark 이미지 클릭시 isBookmarked의 값을 바꿔주는 핸들러함수
   const handleBookmarkClick = (item) => {
     const newData = productData.map((data) => {
       if (data.id === item.id) {
@@ -109,6 +116,7 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
         setShowModal={setShowModal}
         selectedImage={selectedImage}
         handleBookmarkClick={handleBookmarkClick}
+        setSelectedImage={setSelectedImage}
       />
 
       <Footer />
