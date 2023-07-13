@@ -80,7 +80,7 @@ const ProductModal = ({
   const toggleBookmark = () => {
     const updatedImage = {
       ...selectedImage,
-      isBookmarked: !selectedImage.isBookmarked,
+      isBookmarked: selectedImage.isBookmarked,
     };
     handleBookmarkClick(updatedImage);
   };
