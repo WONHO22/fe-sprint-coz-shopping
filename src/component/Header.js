@@ -25,6 +25,7 @@ const Container = styled.div`
     height: 24px;
     margin-left: auto;
     margin-right: 100px;
+    cursor: pointer;
   }
   > div {
     font-size: 2rem;
