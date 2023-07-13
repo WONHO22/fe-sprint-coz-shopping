@@ -9,6 +9,7 @@ import exhibition from "../img/exhibition.png";
 import brand from "../img/brand.png";
 import ProductItem from "../component/ProductItem";
 import ProductModal from "../component/ProductModal";
+import ProductList from "../component/ProductList";
 
 const FilteringSection = styled.section`
   padding-top: 30px;
@@ -182,29 +183,15 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
       </FilteringSection>
 
       {/*상품리스트 랜더링 부분 */}
-      <ProductContainer>
-        {productData
-          .filter((item) => {
-            // selectedFilter가 ""(전체) 일경우 모두다 랜더링
-            if (selectedFilter === "") {
-              return true;
-            }
-            // 전체가 아닌경우 해당 필터에 맞는 목록 랜더링
-            return item.type === selectedFilter;
-          })
-          .slice(0, renderedItems)
-          .map((item, idx) => (
-            <ProductItem
-              key={idx}
-              item={item}
-              onClick={() => clickModal(item)}
-              handleBookmarkClick={handleBookmarkClick}
-              isDiscount={item.type === "Product"}
-              selectedFilter={selectedFilter}
-            />
-          ))}
-      </ProductContainer>
-
+      <ProductList
+        productData={productData}
+        clickModal={clickModal}
+        handleBookmarkClick={handleBookmarkClick}
+        selectedFilter={selectedFilter}
+        renderedItems={renderedItems}
+        bookmarkedFilter={false}
+        isBookmarked={isBookmarked}
+      />
       {/* 모달창 랜더링 부분 */}
       <ProductModal
         showModal={showModal}
