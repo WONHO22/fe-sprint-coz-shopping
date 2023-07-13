@@ -50,7 +50,17 @@ function App() {
               />
             }
           ></Route>
-          <Route path="/bookmark" element={<BookmarkPage />}></Route>
+          <Route
+            path="/bookmark"
+            element={
+              <BookmarkPage
+                productData={productData}
+                setProductData={setProductData}
+                isBookmarked={isBookmarked}
+                setIsBookmarked={setIsBookmarked}
+              />
+            }
+          ></Route>
         </Routes>
       </BrowserRouter>
     </>
