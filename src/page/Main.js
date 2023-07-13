@@ -8,7 +8,7 @@ import ProductModal from "../component/ProductModal";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 40px 40px 65px;
+  margin: 20px 40px 0px 65px;
   font-size: 1.2rem;
   font-weight: 700;
   width: auto;
@@ -18,7 +18,7 @@ const ItemWrapper = styled.div`
   display: flex;
   flex-direction: column;
   width: auto;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 
   .title {
     font-size: 2rem;
