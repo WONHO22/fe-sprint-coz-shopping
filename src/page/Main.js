@@ -143,24 +143,6 @@ const Main = ({
     setSelectedImage(item);
   };
 
-  // product 사진을 받아오는 api, axios 사용 / 비동기처리x  => 상태끌어올리기 app.js로
-  // useEffect(() => {
-  //   axios
-  //     .get("http://cozshopping.codestates-seb.link/api/v1/products", {
-  //       params: { count: 4 },
-  //     })
-  //     .then((response) => {
-  //       const data = response.data.map((item) => ({
-  //         ...item,
-  //         isBookmarked: false, // 북마크 상태 정보를 추가로 저장
-  //       }));
-  //       setProductData(data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error", error);
-  //     });
-  // }, []);
-
   // 현재 클릭한 사진의 bookmark 이미지 클릭시 isBookmarked의 값을 바꿔주는 핸들러함수
   const handleBookmarkClick = (item) => {
     const newData = productData.map((data) => {
