@@ -30,11 +30,23 @@ function App() {
     axios
       .get("http://cozshopping.codestates-seb.link/api/v1/products")
       .then((response) => {
-        const data = response.data.map((item) => ({
-          ...item,
-          isBookmarked: false, // 북마크 상태 정보를 추가로 저장
-        }));
-        setProductData(data); // 받을때 모든 데이터를 받고 Main에는 4개만 전달, ProductListPage에는 전체 전달
+        const data = response.data.map((item) => {
+          // 데이터의 type가 Brand 인경우 분기처리
+          // Brand의 경우 image_url이 없고 brand_image_url이 있기 때문에, image_url값을 brand_image_url로 바꿔줌
+          if (!item.image_url) {
+            return {
+              ...item,
+              isBookmarked: false, // 북마크 상태 정보를 추가로 저장(기본값 false)
+              image_url: item.brand_image_url,
+            };
+          }
+          return {
+            ...item,
+            isBookmarked: false, // 북마크 상태 정보를 추가로 저장(기본값 false)
+          };
+        });
+
+        setProductData(data); // 받을때 모든 데이터를 받고 Main에는 4개만 사용, ProductListPage에는 전체 데이터를 사용
       })
       .catch((error) => {
         console.error("Error", error);
