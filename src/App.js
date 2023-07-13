@@ -4,6 +4,8 @@ import Main from "./page/Main";
 import BookmarkPage from "./page/BookmarkPage";
 import ProductListPage from "./page/ProductListPage";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   const [productData, setProductData] = useState([]);
@@ -32,7 +34,7 @@ function App() {
             path="/"
             element={
               <Main
-                productData={productData} // 4개만 전달
+                productData={productData}
                 setProductData={setProductData}
                 isBookmarked={isBookmarked}
                 setIsBookmarked={setIsBookmarked}
@@ -63,6 +65,7 @@ function App() {
           ></Route>
         </Routes>
       </BrowserRouter>
+      <ToastContainer position="bottom-center" autoClose={3000} />
     </>
   );
 }
