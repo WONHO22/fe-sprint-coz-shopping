@@ -49,12 +49,7 @@ function App() {
           <Route
             path="/"
             element={
-              <Main
-                productData={productData}
-                setProductData={setProductData}
-                isBookmarked={isBookmarked}
-                setIsBookmarked={setIsBookmarked}
-              />
+              <Main productData={productData} setProductData={setProductData} />
             }
           ></Route>
           <Route
@@ -64,7 +59,6 @@ function App() {
                 productData={productData}
                 setProductData={setProductData}
                 isBookmarked={isBookmarked}
-                setIsBookmarked={setIsBookmarked}
               />
             }
           ></Route>
@@ -75,7 +69,6 @@ function App() {
                 productData={productData}
                 setProductData={setProductData}
                 isBookmarked={isBookmarked}
-                setIsBookmarked={setIsBookmarked}
               />
             }
           ></Route>
