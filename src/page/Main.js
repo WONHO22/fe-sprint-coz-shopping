@@ -73,12 +73,7 @@ const ItemWrapper = styled.div`
   }
 `;
 
-const Main = ({
-  productData,
-  setProductData,
-  isBookmarked,
-  setIsBookmarked,
-}) => {
+const Main = ({ productData, setProductData }) => {
   // product 사진을 받아오는 상태
   // const [productData, setProductData] = useState([]); // app.js로 상태끌어올리기
   // 모달창 구현을 위한 상태

@@ -45,56 +45,6 @@ const FilteringSection = styled.section`
   }
 `;
 
-const ProductContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  width: 97%;
-  margin: 40px 10px 10px 10px;
-  > .itemContainer {
-    // 상품리스트 사진
-    margin-bottom: 15px;
-    > img {
-      width: 410px;
-      height: 300px;
-      border-radius: 15px;
-    }
-    // 북마크 이미지
-    > svg {
-      display: relative;
-      transform: translate(400px, -10px);
-      width: 35px;
-      height: 35px;
-      color: white;
-      cursor: pointer;
-    }
-    > .descriptionContainer {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      font-size: 1.2rem;
-      font-weight: 700;
-      > .subDescriptionContainer {
-        margin-left: 35px;
-        > .descriptionItem2 {
-          font-weight: 500;
-        }
-      }
-      > .subDescriptionContainer2 {
-        text-align: right;
-        // 할인율 나오는 부분
-        > .descriptionItem3true {
-          color: #452cdd;
-        }
-        > .descriptionItem4 {
-          font-weight: 400;
-        }
-      }
-    }
-  }
-`;
-
 const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 편하게 map을 통해 랜더링하기 위해 filteringObj를 원하는 형식으로 만들어줌
   const filteringObj = [
