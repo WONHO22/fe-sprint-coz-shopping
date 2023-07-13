@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import "./App.css";
 import Main from "./page/Main";
 import BookmarkPage from "./page/BookmarkPage";
 import ProductListPage from "./page/ProductListPage";

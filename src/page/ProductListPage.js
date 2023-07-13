@@ -7,8 +7,6 @@ import product from "../img/product.png";
 import category from "../img/category.png";
 import exhibition from "../img/exhibition.png";
 import brand from "../img/brand.png";
-import { FaStar } from "react-icons/fa";
-import { IoClose } from "react-icons/io5";
 import ProductItem from "../component/ProductItem";
 import ProductModal from "../component/ProductModal";
 
