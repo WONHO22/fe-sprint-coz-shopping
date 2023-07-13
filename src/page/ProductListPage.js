@@ -16,6 +16,7 @@ const FilteringSection = styled.section`
     display: flex;
     flex-direction: row;
     justify-content: center;
+
     > div {
       margin: 0px 30px;
       cursor: pointer;
@@ -29,6 +30,15 @@ const FilteringSection = styled.section`
         font-size: 1.3rem;
         margin-top: 8px;
         font-weight: 500;
+      }
+      // 선택된 필터링 항목의 텍스트
+      > .FilteringLabelSelected {
+        text-align: center;
+        font-size: 1.4rem;
+        margin-top: 8px;
+        font-weight: 700;
+        color: #412dd4;
+        text-decoration: underline;
       }
     }
   }
@@ -160,7 +170,12 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
           {filteringObj.map((item, idx) => (
             <div key={idx} onClick={() => filteringProduct(item.type)}>
               <img src={item.image} alt={item.label} />
-              <div className="FilteringLabel">{item.label}</div>
+              {/* 현재 선택한 필터링의 CSS를 적용하기위한 조건부 랜더링 */}
+              {item.type === selectedFilter ? (
+                <div className="FilteringLabelSelected">{item.label}</div>
+              ) : (
+                <div className="FilteringLabel">{item.label}</div>
+              )}
             </div>
           ))}
         </div>
