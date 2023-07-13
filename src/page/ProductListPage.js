@@ -18,12 +18,13 @@ const FilteringSection = styled.section`
     justify-content: center;
     > div {
       margin: 0px 30px;
+      cursor: pointer;
       // 필터링 섹션 안에 사진
       > img {
         width: 105px;
       }
       // 필터링 섹션 안에 텍스트
-      > div {
+      > .FilteringLabel {
         text-align: center;
         font-size: 1.3rem;
         margin-top: 8px;
@@ -86,11 +87,11 @@ const ProductContainer = styled.div`
 const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 편하게 map을 통해 랜더링하기 위해 filteringObj를 원하는 형식으로 만들어줌
   const filteringObj = [
-    { image: all, label: "전체" },
-    { image: product, label: "상품" },
-    { image: category, label: "카테고리" },
-    { image: exhibition, label: "기획전" },
-    { image: brand, label: "브랜드" },
+    { image: all, label: "전체", type: "" },
+    { image: product, label: "상품", type: "Product" },
+    { image: category, label: "카테고리", type: "Category" },
+    { image: exhibition, label: "기획전", type: "Exhibition" },
+    { image: brand, label: "브랜드", type: "Brand" },
   ];
 
   const [showModal, setShowModal] = useState(false);
@@ -98,6 +99,8 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   const [selectedImage, setSelectedImage] = useState(null);
   // 초기 랜더링될 이미지의 수를 8로 설정
   const [renderedItems, setRenderedItems] = useState(12);
+  // 상품 필터링을 해주기 위한 상태
+  const [selectedFilter, setSelectedFilter] = useState("전체");
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
@@ -143,15 +146,21 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
     }
   };
 
+  // 상품 목록 필터링을 위한 함수
+  // 필터링 항목 클릭시 해당 item의 type selectedFilter에 저장 ex)Product, Exhibition, Brand
+  const filteringProduct = (type) => {
+    setSelectedFilter(type);
+  };
+
   return (
     <>
       <Header />
       <FilteringSection>
         <div className="FilteringContainer">
           {filteringObj.map((item, idx) => (
-            <div key={idx}>
+            <div key={idx} onClick={() => filteringProduct(item.type)}>
               <img src={item.image} alt={item.label} />
-              <div>{item.label}</div>
+              <div className="FilteringLabel">{item.label}</div>
             </div>
           ))}
         </div>
@@ -159,15 +168,26 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
 
       {/*상품리스트 랜더링 부분 */}
       <ProductContainer>
-        {productData.slice(0, renderedItems).map((item, idx) => (
-          <ProductItem
-            key={idx}
-            item={item}
-            onClick={() => clickModal(item)}
-            handleBookmarkClick={handleBookmarkClick}
-            isDiscount={item.type === "Product"}
-          />
-        ))}
+        {productData
+          .filter((item) => {
+            // selectedFilter가 ""(전체) 일경우 모두다 랜더링
+            if (selectedFilter === "") {
+              return true;
+            }
+            // 전체가 아닌경우 해당 필터에 맞는 목록 랜더링
+            return item.type === selectedFilter;
+          })
+          .slice(0, renderedItems)
+          .map((item, idx) => (
+            <ProductItem
+              key={idx}
+              item={item}
+              onClick={() => clickModal(item)}
+              handleBookmarkClick={handleBookmarkClick}
+              isDiscount={item.type === "Product"}
+              selectedFilter={selectedFilter}
+            />
+          ))}
       </ProductContainer>
 
       {/* 모달창 랜더링 부분 */}
