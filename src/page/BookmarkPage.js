@@ -78,8 +78,8 @@ const BookmarkPage = ({ productData, setProductData, isBookmarked }) => {
         // toast 띄워주기
         toast(
           isBookmarked
-            ? "상품이 북마크에 추가되었습니다."
-            : "상품이 북마크에서 제거되었습니다."
+            ? "⭐ 상품이 북마크에 추가되었습니다."
+            : "☆ 상품이 북마크에서 제거되었습니다."
         );
         return {
           ...data,
