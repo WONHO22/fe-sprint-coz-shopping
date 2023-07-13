@@ -45,7 +45,7 @@ const FilteringSection = styled.section`
   }
 `;
 
-const BookmarkPage = ({ productData, setProductData, isBookmarked }) => {
+const BookmarkPage = ({ productData, setProductData }) => {
   // 편하게 map을 통해 랜더링하기 위해 filteringObj를 원하는 형식으로 만들어줌
   const filteringObj = [
     { image: all, label: "전체", type: "" },
@@ -147,7 +147,6 @@ const BookmarkPage = ({ productData, setProductData, isBookmarked }) => {
         selectedFilter={selectedFilter}
         renderedItems={renderedItems}
         bookmarkedFilter={true}
-        isBookmarked={isBookmarked}
       />
       {/* 모달창 랜더링 부분 */}
       <ProductModal

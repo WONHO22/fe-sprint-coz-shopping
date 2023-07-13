@@ -25,7 +25,6 @@ const CustomToastContainer = styled(ToastContainer)`
 
 function App() {
   const [productData, setProductData] = useState([]);
-  const [isBookmarked, setIsBookmarked] = useState(false);
 
   useEffect(() => {
     axios
@@ -58,7 +57,6 @@ function App() {
               <ProductListPage
                 productData={productData}
                 setProductData={setProductData}
-                isBookmarked={isBookmarked}
               />
             }
           ></Route>
@@ -68,7 +66,6 @@ function App() {
               <BookmarkPage
                 productData={productData}
                 setProductData={setProductData}
-                isBookmarked={isBookmarked}
               />
             }
           ></Route>

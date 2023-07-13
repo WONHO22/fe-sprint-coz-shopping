@@ -45,7 +45,7 @@ const FilteringSection = styled.section`
   }
 `;
 
-const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
+const ProductListPage = ({ productData, setProductData }) => {
   // 편하게 map을 통해 랜더링하기 위해 filteringObj를 원하는 형식으로 만들어줌
   const filteringObj = [
     { image: all, label: "전체", type: "" },
@@ -123,7 +123,6 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   return (
     <>
       <Header />
-      {console.log(isBookmarked)}
       <FilteringSection>
         <div className="FilteringContainer">
           {filteringObj.map((item, idx) => (
@@ -148,7 +147,6 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
         selectedFilter={selectedFilter}
         renderedItems={renderedItems}
         bookmarkedFilter={false}
-        isBookmarked={isBookmarked}
       />
       {/* 모달창 랜더링 부분 */}
       <ProductModal
