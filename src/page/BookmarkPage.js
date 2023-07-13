@@ -7,9 +7,9 @@ import product from "../img/product.png";
 import category from "../img/category.png";
 import exhibition from "../img/exhibition.png";
 import brand from "../img/brand.png";
-import ProductItem from "../component/ProductItem";
 import ProductModal from "../component/ProductModal";
 import ProductList from "../component/ProductList";
+import { toast } from "react-toastify";
 
 const FilteringSection = styled.section`
   padding-top: 30px;
@@ -124,9 +124,16 @@ const BookmarkPage = ({ productData, setProductData, isBookmarked }) => {
   const handleBookmarkClick = (item) => {
     const newData = productData.map((data) => {
       if (data.id === item.id) {
+        const isBookmarked = !item.isBookmarked;
+        // toast 띄워주기
+        toast(
+          isBookmarked
+            ? "상품이 북마크에 추가되었습니다."
+            : "상품이 북마크에서 제거되었습니다."
+        );
         return {
           ...data,
-          isBookmarked: !data.isBookmarked, // 해당 상품 항목의 isBookmarked값 업데이트
+          isBookmarked, // == isBookmarked: !data.isBookmarked 해당 상품 항목의 isBookmarked값 업데이트
         };
       }
       return data;

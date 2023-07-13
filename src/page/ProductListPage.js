@@ -7,7 +7,6 @@ import product from "../img/product.png";
 import category from "../img/category.png";
 import exhibition from "../img/exhibition.png";
 import brand from "../img/brand.png";
-import ProductItem from "../component/ProductItem";
 import ProductModal from "../component/ProductModal";
 import ProductList from "../component/ProductList";
 import { toast } from "react-toastify";
