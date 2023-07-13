@@ -33,7 +33,7 @@ function App() {
             path="/"
             element={
               <Main
-                productData={productData.slice(0, 4)} // 4개만 전달
+                productData={productData} // 4개만 전달
                 setProductData={setProductData}
                 isBookmarked={isBookmarked}
                 setIsBookmarked={setIsBookmarked}
@@ -42,7 +42,14 @@ function App() {
           ></Route>
           <Route
             path="/productlist"
-            element={<ProductListPage productData={productData} />}
+            element={
+              <ProductListPage
+                productData={productData}
+                setProductData={setProductData}
+                isBookmarked={isBookmarked}
+                setIsBookmarked={setIsBookmarked}
+              />
+            }
           ></Route>
           <Route path="/bookmark" element={<BookmarkPage />}></Route>
         </Routes>

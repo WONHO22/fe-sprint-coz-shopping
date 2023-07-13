@@ -234,7 +234,7 @@ const Main = ({
         <ItemWrapper>
           <div className="title">상품 리스트</div>
           <div>
-            {productData.map((item, idx) => (
+            {productData.slice(0, 4).map((item, idx) => (
               <ProductItem
                 key={idx}
                 item={item}
