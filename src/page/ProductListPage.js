@@ -42,12 +42,13 @@ const ProductContainer = styled.div`
   margin: 40px 10px 10px 10px;
   > .itemContainer {
     // 상품리스트 사진
+    margin-bottom: 15px;
     > img {
       width: 410px;
       height: 300px;
       border-radius: 15px;
     }
-
+    // 북마크 이미지
     > svg {
       display: relative;
       transform: translate(400px, -10px);
@@ -55,6 +56,29 @@ const ProductContainer = styled.div`
       height: 35px;
       color: white;
       cursor: pointer;
+    }
+    > .descriptionContainer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      font-size: 1.2rem;
+      font-weight: 700;
+      > .subDescriptionContainer {
+        margin-left: 35px;
+        > .descriptionItem2 {
+          font-weight: 500;
+        }
+      }
+      > .subDescriptionContainer2 {
+        text-align: right;
+        // 할인율 나오는 부분
+        > .descriptionItem3true {
+          color: #452cdd;
+        }
+        > .descriptionItem4 {
+          font-weight: 400;
+        }
+      }
     }
   }
 `;
@@ -73,7 +97,7 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 클릭한 이미지의 상태 저장
   const [selectedImage, setSelectedImage] = useState(null);
   // 초기 랜더링될 이미지의 수를 8로 설정
-  const [renderedItems, setRenderedItems] = useState(8);
+  const [renderedItems, setRenderedItems] = useState(12);
 
   // product 클릭시 실행되는 핸들러 함수
   // 클릭한 이미지의 데이터를 selectedImage에 저장
@@ -113,16 +137,15 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
       window.innerHeight + window.scrollY >= document.body.offsetHeight;
 
     if (isBottom) {
-      // bottom까지 스크롤 한 경우 초기값(이전값) + 8을 해준값으로 renderedItems상태 변경
-      // slice 메서드를 통해 +8씩 늘려줄거임
-      setRenderedItems((prevCount) => prevCount + 8);
+      // bottom까지 스크롤 한 경우 초기값(이전값) + 12을 해준값으로 renderedItems상태 변경
+      // slice 메서드를 통해 +12씩 늘려줄거임
+      setRenderedItems((prevCount) => prevCount + 12);
     }
   };
 
   return (
     <>
       <Header />
-      {console.log(productData)}
       <FilteringSection>
         <div className="FilteringContainer">
           {filteringObj.map((item, idx) => (
@@ -142,6 +165,7 @@ const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
             item={item}
             onClick={() => clickModal(item)}
             handleBookmarkClick={handleBookmarkClick}
+            isDiscount={item.type === "Product"}
           />
         ))}
       </ProductContainer>

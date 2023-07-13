@@ -5,7 +5,7 @@ import { FaStar } from "react-icons/fa";
 // item은 클릭은 그 상품자체의 정보를 담고있음
 // onClick은 showModal과 selectedImage 의 상태를 바꾸어주는 clickModal 핸들러 함수를 전달받음
 // handleBookmarkClick는 현재 클릭한 사진의 bookmark 이미지 클릭시 isBookmarked의 값을 바꿔주는 핸들러함수
-const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
+const ProductItem = ({ item, onClick, handleBookmarkClick, isDiscount }) => {
   return (
     <div className="itemContainer" onClick={onClick}>
       <FaStar
@@ -29,21 +29,21 @@ const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
               ? item.brand_name
               : ""}
           </div>
-          <div className="descriptionItem">
+          <div className="descriptionItem2">
             {item.type === "Exhibition" ? item.sub_title : ""}
           </div>
         </div>
         <div className="subDescriptionContainer2">
-          <div className="descriptionItem">
+          <div className={`descriptionItem3${isDiscount}`}>
             {item.type === "Product"
-              ? `${Number(item.price).toLocaleString()}원`
+              ? `${item.discountPercentage}%`
               : item.type === "Brand"
               ? "관심고객수"
               : ""}
           </div>
-          <div className="descriptionItem">
+          <div className="descriptionItem4">
             {item.type === "Product"
-              ? `${item.discountPercentage}%`
+              ? `${Number(item.price).toLocaleString()}원`
               : item.type === "Brand"
               ? item.follower
               : ""}

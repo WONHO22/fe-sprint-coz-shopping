@@ -53,9 +53,19 @@ const ItemWrapper = styled.div`
         flex-direction: row;
         justify-content: space-between;
 
+        > .subDescriptionContainer {
+          > .descriptionItem2 {
+            font-weight: 500;
+          }
+        }
+
         > .subDescriptionContainer2 {
           margin-right: 65px;
           text-align: right;
+          // 할인율 나오는 부분
+          > .descriptionItem3true {
+            color: #452cdd;
+          }
         }
       }
     }
@@ -112,6 +122,7 @@ const Main = ({
                 onClick={() => clickModal(item)}
                 handleBookmarkClick={handleBookmarkClick}
                 setSelectedImage={setSelectedImage}
+                isDiscount={item.type === "Product"}
               />
             ))}
           </div>
@@ -139,6 +150,7 @@ const Main = ({
                   onClick={() => clickModal(item)}
                   handleBookmarkClick={handleBookmarkClick}
                   setSelectedImage={setSelectedImage}
+                  isDiscount={item.type === "Product"}
                 />
               ))}
           </div>
