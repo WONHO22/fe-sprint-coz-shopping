@@ -9,6 +9,7 @@ import exhibition from "../img/exhibition.png";
 import brand from "../img/brand.png";
 import { FaStar } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
+import ProductItem from "../component/ProductItem";
 
 const FilteringSection = styled.section`
   padding-top: 30px;
@@ -102,55 +103,6 @@ const ProductModal = styled.div`
     }
   }
 `;
-
-const ProductItem = ({ item, onClick, handleBookmarkClick }) => {
-  return (
-    <div className="itemContainer" onClick={onClick}>
-      <FaStar
-        onClick={(event) => {
-          event.stopPropagation(); // .itemContainer의 onClick 핸들러함수의 이벤트 캡쳐링을 방지하고자 썻으나, 없어도 정상작동(리팩토링 전에는 필요했음)
-          handleBookmarkClick(item);
-        }}
-        fill={item.isBookmarked ? "#FFD361" : "white"} // isBookmarked 여부에 따라 별 색상 변경
-      />
-      <img src={item.image_url} alt={item.title} />
-      <div className="descriptionContainer">
-        <div className="subDescriptionContainer">
-          <div className="descriptionItem">
-            {item.type === "Product"
-              ? item.title
-              : item.type === "Category"
-              ? `# ${item.title}`
-              : item.type === "Exhibition"
-              ? item.title
-              : item.type === "Brand"
-              ? item.brand_name
-              : ""}
-          </div>
-          <div className="descriptionItem">
-            {item.type === "Exhibition" ? item.sub_title : ""}
-          </div>
-        </div>
-        <div className="subDescriptionContainer2">
-          <div className="descriptionItem">
-            {item.type === "Product"
-              ? `${Number(item.price).toLocaleString()}원`
-              : item.type === "Brand"
-              ? "관심고객수"
-              : ""}
-          </div>
-          <div className="descriptionItem">
-            {item.type === "Product"
-              ? `${item.discountPercentage}%`
-              : item.type === "Brand"
-              ? item.follower
-              : ""}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const ProductListPage = ({ productData, setProductData, isBookmarked }) => {
   // 편하게 map을 통해 랜더링하기 위해 filteringObj를 원하는 형식으로 만들어줌
