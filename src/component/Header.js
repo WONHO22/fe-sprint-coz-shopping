@@ -25,6 +25,7 @@ const Container = styled.div`
     height: 24px;
     margin-left: auto;
     margin-right: 100px;
+    cursor: pointer;
   }
   > div {
     font-size: 2rem;
@@ -46,6 +47,7 @@ const DropdownContainer = styled.section`
   filter: drop-shadow(0px 0px 8px rgba(0, 0, 0, 0.1));
   font-size: 1.2rem;
   line-height: 2.5rem;
+
   > .line {
     border-bottom: 1.5px solid rgba(0, 0, 0, 0.4);
   }
@@ -67,6 +69,10 @@ const DropdownContainer = styled.section`
   a:active {
     text-decoration: none;
   }
+`;
+
+const IconWrapper = styled.span`
+  margin-right: 5px;
 `;
 
 const Header = () => {
@@ -108,14 +114,18 @@ const Header = () => {
           <div className="line"></div>
           <Link className="dropDown-list" to="/productlist">
             <div className="line">
-              <MdOutlineCardGiftcard className="dropDown-Icon" />
+              <IconWrapper>
+                <MdOutlineCardGiftcard />
+              </IconWrapper>
               상품리스트 페이지
             </div>
           </Link>
           <div className="line"></div>
           <Link className="dropDown-list" to="/bookmark">
             <div>
-              <MdStarOutline className="dropDownIcon" />
+              <IconWrapper>
+                <MdStarOutline />
+              </IconWrapper>
               북마크 페이지
             </div>
           </Link>
